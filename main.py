@@ -161,7 +161,7 @@ def edit_cell(screen, values, i, j, y_offset):
 
 # Set up the screen
 screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-pygame.display.set_caption("Stepping stone verfahren")
+pygame.display.set_caption("Stepping stone algorithm")
 
 # Create the "Calculate" button
 calculate_button_rect = pygame.Rect(10, 10, 100, 40)
