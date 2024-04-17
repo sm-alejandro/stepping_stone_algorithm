@@ -285,6 +285,22 @@ class Table:
                             self.evaluate_path(path, costs.content)
                     return True
 
+    def handle_input(self, event):
+        if self.editing == (-1, -1):
+            return
+        editing = self.content[self.editing[0]][self.editing[1]]
+        editing.value = editing.value if editing.value != -1 else 0
+        if event.key == pygame.K_BACKSPACE:
+            try:
+                editing.value = int(str(editing.value)[0:-1])
+            except:
+                editing.value = -1
+        else:
+            try:
+                editing.value = int(str(editing.value) + event.unicode)
+            except:
+                return
+
     def deselect(self):
         self.editing = (-1, -1)
         self.calculating = []
