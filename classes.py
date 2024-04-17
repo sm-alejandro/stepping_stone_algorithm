@@ -232,10 +232,14 @@ class Table:
             for path in self.calculating:
                 for index, item in enumerate(path):
                     cell_rect = pygame.Rect(
-                        start_x + (item.x + 1) * constants.CELL_WIDTH,
-                        (item.y + 2) * constants.CELL_HEIGHT + y_offset,
-                        constants.CELL_WIDTH,
-                        constants.CELL_HEIGHT,
+                        start_x
+                        + (item.x + 1) * constants.CELL_WIDTH
+                        + constants.CELL_GAP,
+                        (item.y + 2) * constants.CELL_HEIGHT
+                        + y_offset
+                        + constants.CELL_GAP,
+                        constants.CELL_WIDTH - constants.CELL_GAP * 2,
+                        constants.CELL_HEIGHT - constants.CELL_GAP * 2,
                     )
                     pygame.draw.rect(
                         screen,
@@ -247,12 +251,16 @@ class Table:
 
         if self.editing != (-1, -1):
             cell_rect = pygame.Rect(
-                start_x + (self.editing[1] + 1) * constants.CELL_WIDTH,
-                (self.editing[0] + 2) * constants.CELL_HEIGHT + y_offset,
-                constants.CELL_WIDTH,
-                constants.CELL_HEIGHT,
+                start_x
+                + (self.editing[1] + 1) * constants.CELL_WIDTH
+                + constants.CELL_GAP,
+                (self.editing[0] + 2) * constants.CELL_HEIGHT
+                + y_offset
+                + constants.CELL_GAP,
+                constants.CELL_WIDTH - constants.CELL_GAP * 2,
+                constants.CELL_HEIGHT - constants.CELL_GAP * 2,
             )
-            pygame.draw.rect(screen, constants.RED, cell_rect, 2)
+            pygame.draw.rect(screen, constants.WHITE, cell_rect, 3)
             screen.blit(text, text_rect)
 
             return True

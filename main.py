@@ -187,8 +187,8 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             if pygame.mouse.get_pressed()[0]:  # left
-                editing = quantity_table.handle_click(mouse_pos)
-                editing = cost_table.handle_click(mouse_pos)
+                editing = quantity_table.handle_click(mouse_pos, cost_table)
+                editing = cost_table.handle_click(mouse_pos, cost_table)
             elif pygame.mouse.get_pressed()[2]:  # Right click
                 quantity_table.handle_click(mouse_pos, cost_table, False)
         elif event.type == pygame.KEYDOWN:
