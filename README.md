@@ -10,6 +10,7 @@
 This project visualizes the stepping stone algorithm to determine the most cost-effective path for distributing products based on a quantity and cost tables. The algorithm optimizes the distribution process by iteratively evaluating possible paths and adjusting the quantities to minimize costs.
 
 <br/>
+<br/>
 
 <p align="center">
   <img src="program_image.png" alt="Program Screenshot">
