@@ -12,6 +12,8 @@ class Table:
     num_rows = 0
     num_columns = 0
     horizontal = True
+    eval = []
+    costs = []
 
     def __init__(self, values, screen=None):
         self.screen = screen
@@ -26,7 +28,10 @@ class Table:
             [print(j, end=" ") for j in i]
             print()
 
-    def calculate_paths(self):
+    def add_costs(self, costs):
+        self.costs = costs
+
+    def calculate_paths(self, sleep=0.1):
         while True:
             self.screen.fill(constants.GRAY)
             self.draw_table(self.screen, 0, False)
@@ -35,29 +40,53 @@ class Table:
             self._calculate_step()
             if self.calculating == prev_calculating:
                 break  # hasn't found new ways
-            time.sleep(0.01)
+            time.sleep(sleep)
             # while True:
             #     if pygame.event.wait().type == pygame.KEYDOWN:
             #         break
         self.calculating = [i for i in self.calculating if len(i) % 2 == 1]
 
-    def calculate_costs(self, costs):
+    def calculate_costs(self):
         total = 0
         for j, column in enumerate(self.content):
             for i, cell in enumerate(column):
                 if cell.value > 0:
-                    total += cell.value * costs.content[j][i].value
+                    total += cell.value * self.costs.content[j][i].value
         return total
 
-    def evaluate_path(self, path, costs):
+    def auto_find(self):
+        lowest = 9999999
+        lowest_cell = (-1, -1)
+        for j in range(self.num_rows):
+            for i in range(self.num_columns):
+                self.set_calculating(j, i)
+                print(i, j)
+                self.calculate_paths(sleep=0.1)
+                try:
+                    low = min([self.evaluate_path(x) for x in self.calculating])
+                except:
+                    continue
+                print(low)
+                if low < lowest:
+                    lowest = low
+                    lowest_cell = (j, i)
+        print(lowest)
+        if lowest < 0:
+            self.set_calculating(lowest_cell[0], lowest_cell[1])
+            self.calculate_paths(sleep=1)
+            self.update_table()
+            self.auto_find()
+
+    def evaluate_path(self, path):
         mult = True
         sum = 0
         for item in path[:-1]:
-            sum += costs[item.y][item.x].value * (1 if mult else -1)
+            sum += self.costs.content[item.y][item.x].value * (1 if mult else -1)
             mult = not mult
         print(sum)
+        return sum
 
-    def update_table(self, costs):
+    def update_table(self):
         print(f"sc {self.calculating}")
         if not self.calculating:
             return
@@ -82,7 +111,7 @@ class Table:
                     x.value = 0
                     break
         self.calculating = []
-        print(self.calculate_costs(costs))
+        print(self.calculate_costs())
 
     # self.editing = [ # list of paths
     #     [c1, c2, c3],
@@ -103,6 +132,8 @@ class Table:
         # for each path:
         new_calculating = []
         for path in self.calculating:
+            if path[0].value != -1:
+                return
             # calculate possibilities
             if path[-1] == self.start and len(path) > 1:  # if loop completed
                 new_calculating += [path]
@@ -271,7 +302,7 @@ class Table:
         self.calculating = [[self.content[y][x]]]
         self.start = self.content[y][x]
 
-    def handle_click(self, pos, costs, left=True):
+    def handle_click(self, pos, left=True):
         for i, row in enumerate(self.content):
             for j, item in enumerate(row):
                 if item.rect.collidepoint(pos):
@@ -282,7 +313,7 @@ class Table:
                         self.set_calculating(i, j)
                         self.calculate_paths()
                         for path in self.calculating:
-                            self.evaluate_path(path, costs.content)
+                            self.evaluate_path(path)
                     return True
 
     def handle_input(self, event):

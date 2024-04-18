@@ -15,7 +15,8 @@ pygame.display.set_caption("Stepping stone algorithm")
 
 quantity_table = Table(constants.quantity_values, screen)
 cost_table = Table(constants.cost_values)
-costs = quantity_table.calculate_costs(cost_table)
+quantity_table.add_costs(cost_table)
+costs = quantity_table.calculate_costs()
 print(f"COSTS FOR THIS PATH: {costs}")
 editing = False
 # Main loop
@@ -25,18 +26,23 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
+            quantity_table.add_costs(cost_table)
             mouse_pos = pygame.mouse.get_pos()
             if pygame.mouse.get_pressed()[0]:  # Left Click
-                editing = quantity_table.handle_click(mouse_pos, cost_table)
-                editing = cost_table.handle_click(mouse_pos, cost_table)
+                editing = quantity_table.handle_click(mouse_pos)
+                editing = cost_table.handle_click(mouse_pos)
             elif pygame.mouse.get_pressed()[2]:  # Right Click
-                quantity_table.handle_click(mouse_pos, cost_table, False)
+                quantity_table.handle_click(mouse_pos, False)
         elif event.type == pygame.KEYDOWN:
+            quantity_table.add_costs(cost_table)
             if event.key == pygame.K_ESCAPE:
                 quantity_table.deselect()
                 cost_table.deselect()
             elif event.key == pygame.K_u:
-                quantity_table.update_table(cost_table)
+                quantity_table.update_table()
+            elif event.key == pygame.K_a:
+                quantity_table.auto_find()
+                print(f"FINAL COSTS {quantity_table.calculate_costs()}")
             else:
                 quantity_table.handle_input(event)
                 cost_table.handle_input(event)
