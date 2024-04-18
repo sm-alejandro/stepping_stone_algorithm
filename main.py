@@ -46,6 +46,7 @@ while running:
             else:
                 quantity_table.handle_input(event)
                 cost_table.handle_input(event)
+                quantity_table.calculate_costs()
 
     screen.fill(constants.GRAY)
     editing = quantity_table.draw_table(screen=screen, y_offset=0, editing=not editing)

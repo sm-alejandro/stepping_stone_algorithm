@@ -14,6 +14,7 @@ class Table:
     horizontal = True
     eval = []
     costs = []
+    cost = -1
 
     def __init__(self, values, screen=None):
         self.screen = screen
@@ -52,6 +53,7 @@ class Table:
             for i, cell in enumerate(column):
                 if cell.value > 0:
                     total += cell.value * self.costs.content[j][i].value
+        self.cost = total
         return total
 
     def auto_find(self):
@@ -180,6 +182,16 @@ class Table:
         # Calculate the starting x-coordinate for centering
         start_x = (constants.SCREEN_WIDTH - table_width) // 2
 
+        label_text = f"Cost: {self.cost}"
+        text_surface = font.render(label_text, True, constants.BLACK)
+        text_rect = text_surface.get_rect(
+            center=(
+                start_x + constants.CELL_WIDTH // 2,
+                y_offset + constants.CELL_HEIGHT * 1.5,
+            )
+        )
+        screen.blit(text_surface, text_rect)
+
         # Draw row labels
         for i in range(self.num_rows):
             label_text = f"a{i+1}"
@@ -258,6 +270,22 @@ class Table:
                 )
             )
             screen.blit(text_surface, text_rect)
+
+        # Draw row sums
+        total = sum([max(x.value, 0) for row in self.content for x in row])
+        label_text = f"{total}"
+        text_surface = font.render(label_text, True, constants.BLACK)
+        text_rect = text_surface.get_rect(
+            center=(
+                start_x
+                + (self.num_columns + 1) * constants.CELL_WIDTH
+                + constants.CELL_WIDTH // 2,
+                (self.num_columns + 1) * constants.CELL_HEIGHT
+                + y_offset
+                + constants.CELL_HEIGHT // 2,
+            )
+        )
+        screen.blit(text_surface, text_rect)
 
         if self.calculating:
             for path in self.calculating:
