@@ -93,11 +93,18 @@ class Table:
         print(f"sc {self.calculating}")
         if not self.calculating:
             return
-        path = self.calculating[0]
+        min_costs = 100000
+        selected_path = None
+        for path in self.calculating:
+            if self.evaluate_path(path) < min_costs:
+                selected_path = path
         mult = True
-        minimum = min([i.value for i in path if i.value > 0])
+        # get smallest value to substract
+        minimum = min(
+            [i.value for i in [x for x in selected_path[1::2]] if i.value > 0]
+        )
         print("minimum is", minimum)
-        for item in path[:-1]:
+        for item in selected_path[:-1]:
             item.value = max(item.value, 0)
             item.value += minimum * (1 if mult else -1)
             if item.value == 0:
