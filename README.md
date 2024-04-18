@@ -39,7 +39,14 @@ To run the project, ensure you have Python installed on your system. Additionall
 1. Run the `main.py` file to launch the application.
 2. The interface will display two tables: one for quantities and one for costs.
    (you can edit these values in `constants.py`)
-3. Left-click on a cell in the quantities table to edit its value. Press Enter to confirm changes or Esc to cancel.
+3. Left-click on a cell in the quantities table to edit its value.
+
+#### Auto
+
+4. Press <kbd>a</kbd> to start the algorithm. It will calculate every possible path and the associated costs. Then it will update the table using the cheapest path until the minimum costs are reached.
+
+#### Manual
+
 4. Right-click on a cell in the quantities table to mark it as the starting point for calculation. The algorithm will find the possible paths from this cell.
 5. The cost will be displayed in the console. If the costs are negative, the current path is cheaper.
 6. Press <kbd>u</kbd> to update the table. The new cost will be displayed on the console.
@@ -47,10 +54,6 @@ To run the project, ensure you have Python installed on your system. Additionall
 ## Algorithm Details
 
 The stepping stone algorithm works by iteratively evaluating possible paths through the quantity table while considering the associated costs. It identifies the most cost-effective path by exploring all potential routes and adjusting quantities to minimize costs.
-
-### Table Representation
-
-The tables are represented as grids, where each cell contains a quantity or cost value. The algorithm navigates through these tables to determine the optimal distribution path.
 
 ## Contributing
 
