@@ -43,6 +43,12 @@ while running:
             elif event.key == pygame.K_a:
                 quantity_table.auto_find()
                 print(f"FINAL COSTS {quantity_table.calculate_costs()}")
+                from tkinter import Tk, messagebox
+
+                Tk().wm_withdraw()
+                messagebox.showinfo(
+                    "Finished", f"Final Costs: {quantity_table.calculate_costs()}"
+                )
             else:
                 quantity_table.handle_input(event)
                 cost_table.handle_input(event)

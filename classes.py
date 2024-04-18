@@ -1,7 +1,7 @@
 import time
-from typing import List
 import pygame
 import constants
+from tkinter import Tk, messagebox
 
 
 class Table:
@@ -75,9 +75,10 @@ class Table:
         print(lowest)
         if lowest < 0:
             self.set_calculating(lowest_cell[0], lowest_cell[1])
-            self.calculate_paths(sleep=1)
+            self.calculate_paths(sleep=0.3)
             self.update_table()
             self.auto_find()
+        self.deselect()
 
     def evaluate_path(self, path):
         mult = True
@@ -339,9 +340,13 @@ class Table:
                         self.editing = (i, j)
                     else:
                         self.set_calculating(i, j)
-                        self.calculate_paths()
+                        self.calculate_paths(sleep=0.2)
                         for path in self.calculating:
-                            self.evaluate_path(path)
+                            Tk().wm_withdraw()
+                            messagebox.showinfo(
+                                "Finished",
+                                f"Cheapest costs for this path: {self.evaluate_path(path)}",
+                            )
                     return True
 
     def handle_input(self, event):
