@@ -23,6 +23,7 @@ class Table:
         ]
         self.num_rows = len(self.content)
         self.num_columns = len(self.content[0])
+        print(f"rows: {self.num_rows}, columns: {self.num_columns}")
 
     def pprint(self):
         for i in self.content:
@@ -273,13 +274,13 @@ class Table:
                     + constants.CELL_WIDTH // 2,
                     constants.CELL_HEIGHT
                     + y_offset
-                    + (self.num_columns * constants.CELL_HEIGHT)
+                    + (self.num_columns+1) * constants.CELL_HEIGHT
                     + constants.CELL_HEIGHT // 2,
                 )
             )
             screen.blit(text_surface, text_rect)
 
-        # Draw row sums
+        # Draw total
         total = sum([max(x.value, 0) for row in self.content for x in row])
         label_text = f"{total}"
         text_surface = font.render(label_text, True, constants.BLACK)
@@ -288,7 +289,7 @@ class Table:
                 start_x
                 + (self.num_columns + 1) * constants.CELL_WIDTH
                 + constants.CELL_WIDTH // 2,
-                (self.num_columns + 1) * constants.CELL_HEIGHT
+                (self.num_rows + 2) * constants.CELL_HEIGHT
                 + y_offset
                 + constants.CELL_HEIGHT // 2,
             )

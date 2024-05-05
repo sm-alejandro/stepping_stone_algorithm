@@ -13,7 +13,7 @@ This project visualizes the stepping stone algorithm to determine the most cost-
 <br/>
 
 <p align="center">
-  <img src="program_image.png" alt="Program Screenshot">
+  <img src="stepping_stone.gif" alt="Program Screenshot">
 </p>
 
 ## Getting Started
